@@ -9,8 +9,6 @@ class TtsPlayEvent extends TtsEvent {}
 
 class TtsPauseEvent extends TtsEvent {}
 
-class TtsStopEvent extends TtsEvent {}
-
 class TtsResumeEvent extends TtsEvent {}
 
-class TtsCancelEvent extends TtsEvent {}
+class TtsStopEvent extends TtsEvent {}

@@ -25,11 +25,17 @@ class Appku extends StatelessWidget {
                   context.read<TtsBloc>().add(TtsStopEvent());
                 },
                 child: Text("Stop")),
-            TextButton(onPressed: () {}, child: Text("Fungsi C")),
-            TextButton(onPressed: () {}, child: Text("Fungsi D")),
-            TextButton(onPressed: () {}, child: Text("Fungsi E")),
-            TextButton(onPressed: () {}, child: Text("Fungsi F")),
-            TextButton(onPressed: () {}, child: Text("Fungsi G")),
+            // TextButton(
+            //     onPressed: () {
+            //       context.read<TtsBloc>().add(TtsPauseEvent());
+            //     },
+            //     child: Text("Pause")),
+            // TextButton(
+            //     onPressed: () {
+            //       context.read<TtsBloc>().add(TtsResumeEvent());
+            //     },
+            //     child: Text("Resume")),
+            // TextButton(onPressed: () {}, child: Text("Save Audio")),
             BlocBuilder<TtsBloc, TtsState>(
               builder: (context, state) {
                 return Text("State: $state");

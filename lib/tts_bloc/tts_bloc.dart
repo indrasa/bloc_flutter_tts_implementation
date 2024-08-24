@@ -9,10 +9,26 @@ part 'tts_state.dart';
 
 class TtsBloc extends Bloc<TtsEvent, TtsState> {
   FlutterTts _flutterTts;
+
+  void _setTtsHandlers() {
+    _flutterTts.setPauseHandler(() async {
+      await _flutterTts.pause();
+      add(TtsPauseEvent());
+    });
+
+    _flutterTts.setContinueHandler(() {
+      add(TtsResumeEvent());
+    });
+  }
+
   TtsBloc(this._flutterTts) : super(TtsInitial()) {
+    _setTtsHandlers();
     on<TtsPlayEvent>(_ttsPlay);
     on<TtsStopEvent>(_ttsStop);
+    // on<TtsPauseEvent>(_ttsPause);
+    // on<TtsResumeEvent>(_ttsResume);
   }
+
   FutureOr<void> _ttsPlay(TtsPlayEvent event, Emitter<TtsState> emit) async {
     emit(TtsLoading());
     try {
@@ -26,11 +42,11 @@ class TtsBloc extends Bloc<TtsEvent, TtsState> {
         add(TtsStopEvent());
       });
 
-      var setBahasaID = await _flutterTts.setLanguage("id-ID");
+      var setBahasaID = await _flutterTts.setLanguage("en-US");
       print(setBahasaID);
 
       var result = await _flutterTts.speak('''
-        main codm
+        speak, stop, getLanguages, setLanguage, setSpeechRate, setVoice, setVolume, setPitch, isLanguageAvailable, setSharedInstance 
       ''');
       if (result == 1) {
         print("sedang playing");
@@ -57,4 +73,15 @@ class TtsBloc extends Bloc<TtsEvent, TtsState> {
       emit(TtsError());
     }
   }
+
+  // FutureOr<void> _ttsPause(TtsPauseEvent event, Emitter<TtsState> emit) async {
+  //   await _flutterTts.pause();
+  //   emit(TtsPaused());
+  // }
+
+  // FutureOr<void> _ttsResume(
+  //     TtsResumeEvent event, Emitter<TtsState> emit) async {
+  //   // emit(TtsResumed());
+  //   add(TtsPlayEvent());
+  // }
 }
