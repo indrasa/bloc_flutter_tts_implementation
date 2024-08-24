@@ -35,9 +35,23 @@ class Appku extends StatelessWidget {
             //       context.read<TtsBloc>().add(TtsResumeEvent());
             //     },
             //     child: Text("Resume")),
-            // TextButton(onPressed: () {}, child: Text("Save Audio")),
+            TextButton(
+                onPressed: () {
+                  context.read<TtsBloc>().add(TtsSaveAudioEvent());
+                },
+                child: Text("Save Audio")),
             BlocBuilder<TtsBloc, TtsState>(
               builder: (context, state) {
+                if (state is TtsAudioSaved) {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (timeStamp) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'Berhasil menyimpan Audio di: ${state.lokasiFile}'),
+                      ));
+                    },
+                  );
+                }
                 return Text("State: $state");
               },
             ),

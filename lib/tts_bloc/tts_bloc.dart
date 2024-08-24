@@ -10,23 +10,24 @@ part 'tts_state.dart';
 class TtsBloc extends Bloc<TtsEvent, TtsState> {
   FlutterTts _flutterTts;
 
-  void _setTtsHandlers() {
-    _flutterTts.setPauseHandler(() async {
-      await _flutterTts.pause();
-      add(TtsPauseEvent());
-    });
+  // void _setTtsHandlers() {
+  //   _flutterTts.setPauseHandler(() async {
+  //     await _flutterTts.pause();
+  //     add(TtsPauseEvent());
+  //   });
 
-    _flutterTts.setContinueHandler(() {
-      add(TtsResumeEvent());
-    });
-  }
+  //   _flutterTts.setContinueHandler(() {
+  //     add(TtsResumeEvent());
+  //   });
+  // }
 
   TtsBloc(this._flutterTts) : super(TtsInitial()) {
-    _setTtsHandlers();
+    // _setTtsHandlers();
     on<TtsPlayEvent>(_ttsPlay);
     on<TtsStopEvent>(_ttsStop);
     // on<TtsPauseEvent>(_ttsPause);
     // on<TtsResumeEvent>(_ttsResume);
+    on<TtsSaveAudioEvent>(_ttsSaveAudio);
   }
 
   FutureOr<void> _ttsPlay(TtsPlayEvent event, Emitter<TtsState> emit) async {
@@ -84,4 +85,13 @@ class TtsBloc extends Bloc<TtsEvent, TtsState> {
   //   // emit(TtsResumed());
   //   add(TtsPlayEvent());
   // }
+
+  FutureOr<void> _ttsSaveAudio(
+      TtsSaveAudioEvent event, Emitter<TtsState> emit) async {
+    emit(TtsLoading());
+    var hasil = await _flutterTts.synthesizeToFile("Hello World", "tts.wav");
+    print('membuat audio');
+    print(hasil.toString());
+    emit(TtsAudioSaved(lokasiFile: hasil.toString()));
+  }
 }

@@ -16,3 +16,8 @@ final class TtsPaused extends TtsState {}
 final class TtsResumed extends TtsState {}
 
 final class TtsError extends TtsState {}
+
+final class TtsAudioSaved extends TtsState {
+  final String lokasiFile;
+  TtsAudioSaved({required this.lokasiFile});
+}
